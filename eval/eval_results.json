@@ -1,0 +1,198 @@
+{
+ "caveat": "Synthetic cohort from a stated generating process. Results show the technique works on this process, not that it works in a village. Not a clinical-accuracy claim.",
+ "criteria": {
+  "auc_min": 0.75,
+  "ece_max": 0.06,
+  "sens_min": 0.7,
+  "threshold_chosen_on_validation_for_sensitivity": 0.8
+ },
+ "model_table": [
+  {
+   "Condition": "Hypertension",
+   "AUC (95% CI)": "0.919 (0.904-0.936)",
+   "Logistic baseline AUC": "0.919",
+   "ECE": "0.017",
+   "Threshold": "0.34",
+   "Sensitivity (95% CI)": "0.80 (0.76-0.83)",
+   "Specificity": "0.88",
+   "Meets criteria": "yes"
+  },
+  {
+   "Condition": "Diabetes",
+   "AUC (95% CI)": "0.950 (0.939-0.963)",
+   "Logistic baseline AUC": "0.949",
+   "ECE": "0.011",
+   "Threshold": "0.46",
+   "Sensitivity (95% CI)": "0.72 (0.68-0.76)",
+   "Specificity": "0.96",
+   "Meets criteria": "yes"
+  },
+  {
+   "Condition": "Heart-disease risk",
+   "AUC (95% CI)": "0.861 (0.830-0.888)",
+   "Logistic baseline AUC": "0.864",
+   "ECE": "0.016",
+   "Threshold": "0.12",
+   "Sensitivity (95% CI)": "0.71 (0.66-0.77)",
+   "Specificity": "0.85",
+   "Meets criteria": "yes"
+  }
+ ],
+ "masking": [
+  {
+   "Findings hidden": "0%",
+   "Mean AUC": 0.922,
+   "Share flagged 'insufficient evidence'": "0%"
+  },
+  {
+   "Findings hidden": "40%",
+   "Mean AUC": 0.847,
+   "Share flagged 'insufficient evidence'": "1%"
+  },
+  {
+   "Findings hidden": "70%",
+   "Mean AUC": 0.751,
+   "Share flagged 'insufficient evidence'": "32%"
+  },
+  {
+   "Findings hidden": "90%",
+   "Mean AUC": 0.599,
+   "Share flagged 'insufficient evidence'": "89%"
+  }
+ ],
+ "decision_table": [
+  {
+   "Missed-case weight": 1,
+   "Utility policy (4 actions)": -1.03,
+   "Utility policy (no test action)": -1.49,
+   "Threshold rule": -2.09,
+   "Better policy": "utility (no test)"
+  },
+  {
+   "Missed-case weight": 5,
+   "Utility policy (4 actions)": -2.12,
+   "Utility policy (no test action)": -3.7,
+   "Threshold rule": -4.06,
+   "Better policy": "utility (no test)"
+  },
+  {
+   "Missed-case weight": 10,
+   "Utility policy (4 actions)": -2.58,
+   "Utility policy (no test action)": -5.05,
+   "Threshold rule": -6.52,
+   "Better policy": "utility (no test)"
+  },
+  {
+   "Missed-case weight": 20,
+   "Utility policy (4 actions)": -3.09,
+   "Utility policy (no test action)": -6.37,
+   "Threshold rule": -11.44,
+   "Better policy": "utility (no test)"
+  },
+  {
+   "Missed-case weight": 50,
+   "Utility policy (4 actions)": -3.97,
+   "Utility policy (no test action)": -6.6,
+   "Threshold rule": -26.2,
+   "Better policy": "utility (no test)"
+  }
+ ],
+ "routing": {
+  "nodes": 150,
+  "queries": 300,
+  "equal_cost_share": 1.0,
+  "astar_expanded_mean": 5.16,
+  "ucs_expanded_mean": 7.79,
+  "nearest_lacks_capability_share": 0.3466666666666667,
+  "nearest_extra_minutes_mean": -10.880045722192106,
+  "expansion_saving_pct": 33.761232349165596
+ },
+ "latency": {
+  "n": 150,
+  "p50_ms": 4.8,
+  "p95_ms": 17.4,
+  "whatif_p95_ms": 16.1
+ },
+ "property_tests": [
+  {
+   "invariant": "Probabilities lie in [0,1] and sum to 1",
+   "trials": 150,
+   "failures": 0,
+   "passed": true,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "invariant": "Raising systolic BP never lowers P(hypertension)",
+   "trials": 150,
+   "failures": 0,
+   "passed": true,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "invariant": "Removing a finding never raises confidence",
+   "trials": 150,
+   "failures": 13,
+   "passed": false,
+   "status": "FINDING",
+   "note": "Design finding: removing a conflicting finding can NARROW the interval, so the level can rise. The plan's invariant is too strong for an interval-based confidence; the insufficient-evidence flag (count based) is the safety control."
+  },
+  {
+   "invariant": "Red-flag input always returns 'refer urgently'",
+   "trials": 150,
+   "failures": 0,
+   "passed": true,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "invariant": "A* cost equals uniform-cost cost; heuristic never overestimates",
+   "trials": 150,
+   "failures": 0,
+   "passed": true,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "invariant": "Destination is open and has every required capability",
+   "trials": 150,
+   "failures": 0,
+   "passed": true,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "invariant": "Same input and settings give the same output",
+   "trials": 150,
+   "failures": 0,
+   "passed": true,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "invariant": "Blank fields never raise an error (including an empty form)",
+   "trials": 150,
+   "failures": 0,
+   "passed": true,
+   "status": "PASS",
+   "note": ""
+  },
+  {
+   "invariant": "No log line contains a test patient's values",
+   "trials": 150,
+   "failures": 0,
+   "passed": true,
+   "status": "PASS",
+   "note": "20 log lines checked"
+  },
+  {
+   "invariant": "Failure injection: broken model returns 'refer for clinician review'",
+   "trials": 1,
+   "failures": 0,
+   "passed": true,
+   "status": "PASS",
+   "note": ""
+  }
+ ]
+}
